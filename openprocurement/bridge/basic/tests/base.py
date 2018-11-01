@@ -3,9 +3,22 @@ import os
 
 from yaml import safe_load
 
+
+DB_HOST = os.environ.get('DB_HOST', '')
+DB_PORT = os.environ.get('DB_PORT', '')
+DB_USER = os.environ.get('DB_USER', '')
+DB_PASS = os.environ.get('DB_PASS', '')
 CONFIG_FILE = "{}/test.yml".format(os.path.dirname(__file__))
 with open(CONFIG_FILE, 'r') as f:
     TEST_CONFIG = safe_load(f.read())
+if DB_HOST:
+    TEST_CONFIG['main']['storage_config']['host'] = DB_HOST
+if DB_PORT:
+    TEST_CONFIG['main']['storage_config']['port'] = DB_PORT
+if DB_USER:
+    TEST_CONFIG['main']['storage_config']['user'] = DB_USER
+if DB_PASS:
+    TEST_CONFIG['main']['storage_config']['password'] = DB_PASS
 
 
 class MockedResponse(object):
