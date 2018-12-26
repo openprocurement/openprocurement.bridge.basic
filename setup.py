@@ -19,6 +19,8 @@ requires = [
     'couchdb',
     'elasticsearch',
     'jmespath',
+    'redis',
+    'LazyDB'
 ]
 test_requires = requires + [
     'requests',
