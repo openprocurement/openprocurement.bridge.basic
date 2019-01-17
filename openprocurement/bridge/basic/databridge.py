@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from gevent import monkey
 monkey.patch_all()
+from openprocurement.bridge.basic.monkey import patch_traceback
+patch_traceback()
+#
 
 import argparse
 import logging
