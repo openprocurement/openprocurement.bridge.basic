@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from gevent import monkey
 monkey.patch_all()
+from openprocurement.bridge.basic.monkey import patch_traceback
+patch_traceback()
+#
 
 import argparse
 import logging
@@ -110,7 +113,7 @@ class BasicDataBridge(object):
         for entry_point in iter_entry_points('openprocurement.bridge.basic.worker_plugins', self.worker_type):
             self.worker_greenlet = entry_point.load()
 
-        self.feeder = ResourceFeeder(host=self.api_host,
+        self.feeder = ResourceFeeder(host=self.config.get('public_resources_api_server', self.api_host),
                                      version=self.api_version, key='',
                                      resource=self.config['resource'],
                                      extra_params=self.extra_params,
