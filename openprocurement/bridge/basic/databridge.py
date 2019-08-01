@@ -17,7 +17,7 @@ from gevent import sleep, spawn
 from gevent.queue import PriorityQueue, Queue
 from openprocurement_client.exceptions import RequestFailed
 from openprocurement_client.resources.sync import ResourceFeeder
-from openprocurement_client.resources.tenders import TendersClient as APIClient
+from openprocurement_client.clients import APIResourceClient as APIClient
 from pkg_resources import iter_entry_points
 from yaml import load
 
