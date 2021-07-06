@@ -22,7 +22,7 @@ from openprocurement_client.exceptions import RequestFailed
 from openprocurement_client.resources.sync import ResourceFeeder
 from openprocurement_client.resources.tenders import TendersClient as APIClient
 from pkg_resources import iter_entry_points
-from yaml import load
+from yaml import safe_load
 
 from openprocurement.bridge.basic.constants import DEFAULTS, PROCUREMENT_METHOD_TYPE_HANDLERS
 from openprocurement.bridge.basic.utils import DataBridgeConfigError
@@ -366,7 +366,7 @@ def main():
     params = parser.parse_args()
     if os.path.isfile(params.config):
         with open(params.config) as config_file_obj:
-            config = load(config_file_obj.read())
+            config = safe_load(config_file_obj.read())
         logging.config.dictConfig(config)
         BasicDataBridge(config).run()
 
