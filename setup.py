@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1.1'
+version = '0.1.4dp'
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -72,7 +72,7 @@ setup(name='openprocurement.bridge.basic',
       url="https://github.com/openprocurement/",
       license='Apache License 2.0',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['openprocurement'],
+      namespace_packages=['openprocurement', 'openprocurement.bridge'],
       include_package_data=True,
       zip_safe=False,
       install_requires=requires,

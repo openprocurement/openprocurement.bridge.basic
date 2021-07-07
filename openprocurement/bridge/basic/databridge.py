@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from gevent import monkey
 monkey.patch_all()
+from openprocurement.bridge.basic.monkey import patch_traceback
+patch_traceback()
+#
 
 import argparse
 import logging
@@ -19,7 +22,7 @@ from openprocurement_client.exceptions import RequestFailed
 from openprocurement_client.resources.sync import ResourceFeeder
 from openprocurement_client.resources.tenders import TendersClient as APIClient
 from pkg_resources import iter_entry_points
-from yaml import load
+from yaml import safe_load
 
 from openprocurement.bridge.basic.constants import DEFAULTS, PROCUREMENT_METHOD_TYPE_HANDLERS
 from openprocurement.bridge.basic.utils import DataBridgeConfigError
@@ -110,7 +113,7 @@ class BasicDataBridge(object):
         for entry_point in iter_entry_points('openprocurement.bridge.basic.worker_plugins', self.worker_type):
             self.worker_greenlet = entry_point.load()
 
-        self.feeder = ResourceFeeder(host=self.api_host,
+        self.feeder = ResourceFeeder(host=self.config.get('public_resources_api_server', self.api_host),
                                      version=self.api_version, key='',
                                      resource=self.config['resource'],
                                      extra_params=self.extra_params,
@@ -363,7 +366,7 @@ def main():
     params = parser.parse_args()
     if os.path.isfile(params.config):
         with open(params.config) as config_file_obj:
-            config = load(config_file_obj.read())
+            config = safe_load(config_file_obj.read())
         logging.config.dictConfig(config)
         BasicDataBridge(config).run()
 
